@@ -1,0 +1,16 @@
+{
+    # 全局设置，设置您的邮箱以接收 Let's Encrypt 的通知（非强制但推荐）
+    email ericwang83601@gmail.com
+}
+
+# 监听 HTTP 80 和 HTTPS 443
+# Caddy 会自动探测传进来的 Host 头，并自动为其申请/续期 TLS 证书 (Let's Encrypt 或 ZeroSSL)
+:80, :443 {
+    # 启用自动 HTTPS (On-Demand TLS)，允许任何指向这台服务器的域名自动获取证书
+    tls {
+        on_demand
+    }
+
+    # 反向代理请求到后端的 Nginx (依然保留 Nginx 处理 PHP-FPM 的逻辑)
+    reverse_proxy nginx:80
+}

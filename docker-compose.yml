@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  # Caddy: 自动 HTTPS 网关 (Let's Encrypt 自动续签)
+  caddy:
+    image: caddy:2-alpine
+    container_name: wallpaper_caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
+      # 必须持久化 caddy_data 卷，否则重启容器会导致频繁重新申请证书被 Let's Encrypt 封禁
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nginx
+
   # MySQL 数据库
   mysql:
     image: mysql:8.0
@@ -9,8 +25,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wallpaper
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -25,13 +39,14 @@ services:
     depends_on:
       - mysql
 
-  # Nginx Web 服务器
+  # Nginx Web 服务器 (内部网关)
   nginx:
     image: nginx:alpine
     container_name: wallpaper_nginx
     restart: always
-    ports:
-      - "8080:80"
+    # 不再暴露宿主机的 8080，全部经由 Caddy 代理
+    expose:
+      - "80"
     volumes:
       - ./backend:/var/www/html
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -40,3 +55,5 @@ services:
 
 volumes:
   mysql_data:
+  caddy_data:
+  caddy_config:
