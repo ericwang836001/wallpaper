@@ -3,8 +3,9 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Devices from './pages/Devices';
+import Categories from './pages/Categories';
+import Wallpapers from './pages/Wallpapers';
 
-// 鉴权路由保护组件
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const token = localStorage.getItem('admin_token');
   return token ? children : <Navigate to="/login" />;
@@ -18,8 +19,8 @@ function App() {
         
         <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
           <Route index element={<Dashboard />} />
-          <Route path="wallpapers" element={<div className="p-8 text-gray-500 text-center">壁纸列表正在开发中...</div>} />
-          <Route path="categories" element={<div className="p-8 text-gray-500 text-center">分类管理正在开发中...</div>} />
+          <Route path="wallpapers" element={<Wallpapers />} />
+          <Route path="categories" element={<Categories />} />
           <Route path="devices" element={<Devices />} />
         </Route>
       </Routes>
