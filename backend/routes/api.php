@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\WallpaperController;
 use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Webhook\TelegramController;
 
@@ -36,6 +37,8 @@ Route::prefix('admin')->group(function () {
         Route::put('/devices/{device}/toggle-active', [DeviceController::class, 'toggleActive']);
 
         Route::get('/categories', [CategoryController::class, 'index']);
+        Route::get('/tags', [TagController::class, 'index']);
+        Route::delete('/tags/{id}', [TagController::class, 'destroy']);
         Route::post('/categories', [CategoryController::class, 'store']);
     });
 });

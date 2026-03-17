@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Devices from './pages/Devices';
 import Categories from './pages/Categories';
+import Tags from './pages/Tags';
 import Wallpapers from './pages/Wallpapers';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="wallpapers" element={<Wallpapers />} />
           <Route path="categories" element={<Categories />} />
+          <Route path="tags" element={<Tags />} />
           <Route path="devices" element={<Devices />} />
         </Route>
       </Routes>

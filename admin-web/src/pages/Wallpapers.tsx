@@ -149,6 +149,9 @@ export default function Wallpapers() {
                   <h4 className="text-sm font-medium text-gray-900 truncate">{w.title || '未命名壁纸'}</h4>
                   <div className="flex justify-between items-center mt-2">
                     <span className="text-xs text-gray-500">{w.category?.name || '未分类'}</span>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {w.tags?.map((t:any) => <span key={t.id} className="bg-gray-100 text-gray-500 text-[10px] px-1.5 py-0.5 rounded">#{t.name}</span>)}
+                    </div>
                     <span className="text-xs text-gray-400">{(w.original_size / 1024 / 1024).toFixed(1)} MB</span>
                   </div>
                 </div>

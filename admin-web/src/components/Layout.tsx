@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Image as ImageIcon, Smartphone, LogOut, Tags } from 'lucide-react';
+import { LayoutDashboard, Image as ImageIcon, Smartphone, LogOut, Tags, Hash } from 'lucide-react';
 import request from '../utils/request';
 
 export default function Layout() {
@@ -20,6 +20,7 @@ export default function Layout() {
     { name: '数据概览', path: '/', icon: LayoutDashboard },
     { name: '壁纸管理', path: '/wallpapers', icon: ImageIcon },
     { name: '分类管理', path: '/categories', icon: Tags },
+    { name: '标签管理', path: '/tags', icon: Hash },
     { name: '设备管理', path: '/devices', icon: Smartphone },
   ];
 
