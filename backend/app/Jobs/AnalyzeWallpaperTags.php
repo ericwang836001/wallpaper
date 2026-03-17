@@ -33,11 +33,11 @@ class AnalyzeWallpaperTags implements ShouldQueue
             return;
         }
 
-        // 调用大模型视觉 API (例如 OpenAI/Gemini/百川等) 进行图像打标
+        // 调用大模型视觉 API 进行图像打标
         $tags = $this->analyzeImageWithAI($originalPath);
 
         if (empty($tags)) {
-            Log::info("Wallpaper {$this->wallpaper->id} AI Analysis returned no tags.");
+            Log::info("Wallpaper {$this->wallpaper->id} AI Analysis returned no tags or API not configured.");
             return;
         }
 
@@ -60,7 +60,7 @@ class AnalyzeWallpaperTags implements ShouldQueue
 
     /**
      * 调用大模型 Vision API 分析图像
-     * 这里以通用的 OpenAI 兼容接口为例 (例如 GPT-4o-mini 或 Gemini 1.5 Flash)
+     * @return array 解析出的标签数组，若未配置或失败则返回空数组
      */
     private function analyzeImageWithAI($imagePath): array
     {
@@ -68,16 +68,14 @@ class AnalyzeWallpaperTags implements ShouldQueue
         $apiUrl = env('VISION_API_URL', 'https://api.openai.com/v1/chat/completions');
         $model = env('VISION_API_MODEL', 'gpt-4o-mini');
 
-        // 如果没有配置 API Key，为了演示不报错，我们做个随机 mock 兜底
+        // 严格遵循主人指示：未配置时不执行任何兜底随机逻辑，直接返回空数组
         if (empty($apiKey)) {
-            $mockTags = ['风景', '自然', '赛博朋克', '汽车', '城市', '动漫', '极简', '美女', '科技', '游戏'];
-            shuffle($mockTags);
-            return array_slice($mockTags, 0, rand(2, 4));
+            Log::warning("VISION_API_KEY is not configured. Auto-tagging skipped for wallpaper {$this->wallpaper->id}.");
+            return [];
         }
 
         try {
-            // 对原图进行 base64 编码 (生产环境如果图片太大，可以改传我们刚才生成的 600px 缩略图来节约 Token)
-            // 这里为了节约大模型计算资源，我们优先找是否已经生成了缩略图
+            // 优先查找是否已生成了小尺寸缩略图 (type = 1)，以大幅度节约大模型计算资源与 Token
             $thumbVariant = $this->wallpaper->variants()->where('type', 1)->first();
             $pathToAnalyze = $thumbVariant 
                 ? storage_path('app/public/' . $thumbVariant->url) 
