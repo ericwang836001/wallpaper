@@ -15,6 +15,11 @@ class Wallpaper extends Model
         'status', 'views_count', 'likes_count', 'downloads_count'
     ];
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function variants()
     {
         return $this->hasMany(WallpaperVariant::class);

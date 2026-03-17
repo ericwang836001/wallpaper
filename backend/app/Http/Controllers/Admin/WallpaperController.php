@@ -29,7 +29,7 @@ class WallpaperController extends Controller
 
     public function show($id)
     {
-        $wallpaper = Wallpaper::with(['category', 'variants'])->findOrFail($id);
+        $wallpaper = Wallpaper::with(['category', 'variants', 'tags'])->findOrFail($id);
         return response()->json(['code' => 200, 'data' => $wallpaper]);
     }
 
