@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Webhook\TelegramController;
 
 Route::get('/health', function () {
@@ -26,6 +27,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
 
         Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+        Route::get('/system/heartbeat', [SystemController::class, 'heartbeat']);
 
         Route::get('/wallpapers', [WallpaperController::class, 'index']);
         Route::get('/wallpapers/{id}', [WallpaperController::class, 'show']);

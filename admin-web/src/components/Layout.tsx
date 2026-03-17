@@ -1,4 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import SystemHeartbeat from './SystemHeartbeat';
 import { LayoutDashboard, Image as ImageIcon, Smartphone, LogOut, Tags, Hash } from 'lucide-react';
 import request from '../utils/request';
 
@@ -64,9 +65,12 @@ export default function Layout() {
 
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header className="h-16 bg-white border-b border-gray-200 flex items-center px-8 z-10">
-          <h2 className="text-lg font-medium text-gray-800">
+          <div className="flex justify-between items-center w-full">
+            <h2 className="text-lg font-medium text-gray-800">
             {navs.find(n => n.path === location.pathname)?.name || '控制台'}
           </h2>
+                    <SystemHeartbeat />
+          </div>
         </header>
         <div className="flex-1 overflow-y-auto p-8">
           <Outlet />
