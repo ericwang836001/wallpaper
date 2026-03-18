@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wallpaper-admin",
+  "compatibility_date": "2025-09-27",
+  "pages": {
+    "build": {
+      "command": "npm run build",
+      "cwd": "admin-web"
+    }
+  },
+  "observability": {
+    "enabled": true
+  }
+}
