@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import SystemHeartbeat from './SystemHeartbeat';
-import { LayoutDashboard, Image as ImageIcon, Smartphone, LogOut, Tags, Hash } from 'lucide-react';
+import { LayoutDashboard, Image as ImageIcon, Smartphone, LogOut, Tags, Hash, Activity } from 'lucide-react';
 import request from '../utils/request';
 
 export default function Layout() {
@@ -23,6 +23,7 @@ export default function Layout() {
     { name: '分类管理', path: '/categories', icon: Tags },
     { name: '标签管理', path: '/tags', icon: Hash },
     { name: '设备管理', path: '/devices', icon: Smartphone },
+    { name: '队列监控', path: '/horizon', icon: Activity, external: true },
   ];
 
   return (
@@ -35,6 +36,20 @@ export default function Layout() {
           {navs.map(nav => {
             const Icon = nav.icon;
             const isActive = location.pathname === nav.path;
+            if (nav.external) {
+              return (
+                <a 
+                  key={nav.path} 
+                  href="/horizon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-600 hover:bg-gray-50`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {nav.name}
+                </a>
+              )
+            }
             return (
               <Link 
                 key={nav.path} 
