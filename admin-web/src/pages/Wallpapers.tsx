@@ -48,9 +48,7 @@ export default function Wallpapers() {
 
     setUploading(true);
     try {
-      const res: any = await request.post('/api/admin/wallpapers/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const res: any = await request.post('/api/admin/wallpapers/upload', formData);
       if (res.code === 200) {
         alert('上传成功！后台正在裁切生成各分辨率壁纸。');
         fetchData(); // 刷新列表查看处理中状态

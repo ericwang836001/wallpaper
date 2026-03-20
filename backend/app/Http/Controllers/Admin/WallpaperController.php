@@ -41,29 +41,36 @@ class WallpaperController extends Controller
             'category_id' => 'nullable|integer'
         ]);
 
-        $file = $request->file('image');
-        $path = $file->store('wallpapers/original', 'public');
-        
-        $imageSize = getimagesize($file->getPathname());
+        try {
+            $file = $request->file('image');
+            $path = $file->store('wallpapers/original', 'public');
+            
+            $imageSize = getimagesize($file->getPathname());
 
-        $wallpaper = Wallpaper::create([
-            'user_id' => $request->user()->id ?? 1, // 使用登录用户ID
-            'category_id' => $request->category_id,
-            'title' => $request->title ?: $file->getClientOriginalName(),
-            'original_url' => $path,
-            'original_width' => $imageSize[0] ?? 0,
-            'original_height' => $imageSize[1] ?? 0,
-            'original_size' => $file->getSize(),
-            'status' => 0 
-        ]);
+            $wallpaper = Wallpaper::create([
+                'user_id' => $request->user()->id ?? 1, // 使用登录用户ID
+                'category_id' => $request->category_id,
+                'title' => $request->title ?: $file->getClientOriginalName(),
+                'original_url' => $path,
+                'original_width' => $imageSize[0] ?? 0,
+                'original_height' => $imageSize[1] ?? 0,
+                'original_size' => $file->getSize(),
+                'status' => 0 
+            ]);
 
-        ProcessWallpaper::dispatch($wallpaper);
+            ProcessWallpaper::dispatch($wallpaper);
 
-        return response()->json([
-            'code' => 200,
-            'message' => '上传成功，后台正在生成多分辨率图片...',
-            'data' => ['wallpaper_id' => $wallpaper->id]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => '上传成功，后台正在生成多分辨率图片...',
+                'data' => ['wallpaper_id' => $wallpaper->id]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => '上传失败: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function updateStatus(Request $request, $id)

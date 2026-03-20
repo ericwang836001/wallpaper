@@ -103,6 +103,6 @@ class ProcessWallpaper implements ShouldQueue
         $this->wallpaper->update(['status' => 1]);
         
         // 裁切和发布完成后，派发 AI 视觉分析任务进行打标签
-        AppJobsAnalyzeWallpaperTags::dispatch($this->wallpaper);
+        AnalyzeWallpaperTags::dispatch($this->wallpaper);
     }
 }
