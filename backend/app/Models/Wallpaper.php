@@ -15,6 +15,11 @@ class Wallpaper extends Model
         'status', 'views_count', 'likes_count', 'downloads_count'
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
