@@ -23,7 +23,7 @@ export default function Layout() {
     { name: '分类管理', path: '/categories', icon: Tags },
     { name: '标签管理', path: '/tags', icon: Hash },
     { name: '设备管理', path: '/devices', icon: Smartphone },
-    { name: '队列监控', path: '/horizon', icon: Activity, external: true },
+    { name: '队列监控', path: '/horizon', icon: Activity, external: true, url: 'https://api.wanghaibing.com/horizon/dashboard' },
   ];
 
   return (
@@ -40,7 +40,7 @@ export default function Layout() {
               return (
                 <a 
                   key={nav.path} 
-                  href="/horizon"
+                  href={nav.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-gray-600 hover:bg-gray-50`}
