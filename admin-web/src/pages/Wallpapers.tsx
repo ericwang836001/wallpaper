@@ -121,7 +121,7 @@ export default function Wallpapers() {
           {wallpapers.map(w => {
             // 尝试获取缩略图，如果没有则用原图（通常是上传刚完成还在处理中）
             const thumb = w.variants?.find((v:any) => v.type === 1)?.url;
-            const imgUrl = thumb ? `/storage/${thumb}` : `/storage/${w.original_url}`;
+            const apiBase = import.meta.env.VITE_API_BASE_URL || "https://api.wanghaibing.com"; const imgUrl = thumb ? `${apiBase}/storage/${thumb}` : `${apiBase}/storage/${w.original_url}`;
             const statusConfig = STATUS_MAP[w.status];
 
             return (
