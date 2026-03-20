@@ -1,7 +1,7 @@
 FROM php:8.3-fpm-alpine
 
 # 安装必要的依赖和 PHP 扩展
-RUN apk add --no-cache \
+RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories && apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
