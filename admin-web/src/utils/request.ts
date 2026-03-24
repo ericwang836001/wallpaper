@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api.wanghaibing.com',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://139.224.49.94:8000',
   timeout: 10000,
 });
 
