@@ -25,7 +25,7 @@ class SetTelegramWebhook extends Command
         
         $this->info("Setting Webhook to: {$webhookUrl}");
 
-        $response = Http::post("https://api.telegram.org/bot{$botToken}/setWebhook", [
+        $response = Http::post("https://telegram.wanghaibing.com/bot{$botToken}/setWebhook", [
             'url' => $webhookUrl,
         ]);
 

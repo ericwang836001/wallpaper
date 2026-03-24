@@ -73,7 +73,7 @@ class TelegramController extends Controller
         $title = $message['caption'] ?? $fileName;
 
         // 4. 调用 Telegram API 获取文件下载链接
-        $fileInfoResponse = Http::get("https://api.telegram.org/bot{$this->botToken}/getFile", [
+        $fileInfoResponse = Http::get("https://telegram.wanghaibing.com/bot{$this->botToken}/getFile", [
             'file_id' => $fileId
         ]);
 
@@ -84,7 +84,7 @@ class TelegramController extends Controller
         }
 
         $filePath = $fileInfoResponse->json('result.file_path');
-        $fileUrl = "https://api.telegram.org/file/bot{$this->botToken}/{$filePath}";
+        $fileUrl = "https://telegram.wanghaibing.com/file/bot{$this->botToken}/{$filePath}";
 
         // 5. 下载图片到本地 storage/app/public/wallpapers/original
         $this->sendMessage($chatId, "📥 已收到高清大图，正在极速下载原图到服务器...");
@@ -145,7 +145,7 @@ class TelegramController extends Controller
 
     private function sendMessage($chatId, $text)
     {
-        Http::post("https://api.telegram.org/bot{$this->botToken}/sendMessage", [
+        Http::post("https://telegram.wanghaibing.com/bot{$this->botToken}/sendMessage", [
             'chat_id' => $chatId,
             'text' => $text,
             'parse_mode' => 'Markdown'
